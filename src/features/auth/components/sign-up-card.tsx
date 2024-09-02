@@ -23,28 +23,29 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
   const { signIn } = useAuthActions();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
-  const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>)=>{
+  const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(password !== confirmPassword){
+    if (password !== confirmPassword) {
       setError("Password do not match");
       return;
     };
 
     setPending(true);
-    signIn("password", {email, password, flow: "signUp"})
-    .catch(()=>{
-      setError("Somethin went wrong");
-    })
-    .finally(()=>{
-      setPending(false);
-    })
+    signIn("password", { name, email, password, flow: "signUp" })
+      .catch(() => {
+        setError("Somethin went wrong");
+      })
+      .finally(() => {
+        setPending(false);
+      })
   }
 
   const onProviderSignUp = (value: "github" | "google") => {
@@ -75,6 +76,14 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         <form onSubmit={onPasswordSignUp} className="space-y-2.5">
           <Input
             disabled={pending}
+            value={name}
+            onChange={(e) => { setName(e.target.value) }}
+            placeholder="Full name"
+            type="text"
+            required
+          />
+          <Input
+            disabled={pending}
             value={email}
             onChange={(e) => { setEmail(e.target.value) }}
             placeholder="Email"
@@ -86,7 +95,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             value={password}
             onChange={(e) => { setPassword(e.target.value) }}
             placeholder="Password"
-            //type="password"
+            type="password"
             required
           />
           <Input
@@ -94,7 +103,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             value={confirmPassword}
             onChange={(e) => { setConfirmPassword(e.target.value) }}
             placeholder="Confirm Password"
-            //type="password"
+            type="password"
             required
           />
           <Button type="submit" className="w-full" size='lg' disabled={pending}>
