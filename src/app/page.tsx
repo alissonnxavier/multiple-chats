@@ -1,10 +1,20 @@
-import AuthScreen from "@/features/auth/components/auth-screen";
+'use client';
 
+import { useAuthActions } from "@convex-dev/auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
- return (
-  <div className="h-screen w-screen">
-   <AuthScreen/>
-  </div>
- )
+
+    const {signOut} = useAuthActions();
+
+    return (
+        <div className="h-screen w-screen">
+            Logged In!
+            <div>
+                <Button onClick={()=>{signOut()}}>
+                    Sign Out
+                </Button>
+            </div>
+        </div>
+    )
 }
