@@ -1,5 +1,6 @@
 
 
+import { toast } from 'sonner';
 import {
     Dialog,
     DialogContent,
@@ -33,6 +34,7 @@ export const CreateWorkSpacesModal = () => {
 
         mutate({ name }, {
             onSuccess(id) {
+                toast.success("Workspace created");
                 router.push(`/workspace/${id}`);
                 handleClose()
             }
