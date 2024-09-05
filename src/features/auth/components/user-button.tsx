@@ -14,12 +14,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 
 import React from 'react'
 import { useCurrentUser } from "../api/user-current-user";
 
 const UserButton = () => {
+
+    const router = useRouter();
+
     const { signOut } = useAuthActions();
     const { data, isLoading } = useCurrentUser();
 
