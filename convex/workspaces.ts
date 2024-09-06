@@ -3,6 +3,16 @@ import { mutation, query } from "./_generated/server";
 import { auth } from "./auth";
 
 
+const generateCode = () => {
+    const code = Array.from(
+        { length: 6 },
+        () =>
+            "0123456789abcdefghijklmnoprstuvwxyz"[Math.floor(Math.random() * 36)]
+    ).join("");
+
+    return code;
+}
+
 export const create = mutation({
     args: {
         name: v.string(),
@@ -15,12 +25,12 @@ export const create = mutation({
         }
 
         //TODO: create a proper method later
-        const joinCode = '123456';
+        const joinCode = generateCode();
 
         const workspaceId = await ctx.db.insert("workspaces", {
             name: args.name,
             userId,
-            joinCode
+            joinCode,
         });
 
 
