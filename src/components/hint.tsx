@@ -6,6 +6,7 @@ import {
     TooltipProvider,
     TooltipTrigger
 } from '@/components/ui/tooltip';
+import { useState } from 'react';
 
 interface HintProps {
     label: string;
@@ -15,6 +16,9 @@ interface HintProps {
 }
 
 export const Hint = ({ label, children, side, align }: HintProps) => {
+
+    const[a, sA] = useState("");
+
     return (
         <TooltipProvider>
             <Tooltip delayDuration={50}>
