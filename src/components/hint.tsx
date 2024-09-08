@@ -17,7 +17,7 @@ interface HintProps {
 
 export const Hint = ({ label, children, side, align }: HintProps) => {
 
-    const[a, sA] = useState("");
+    
 
     return (
         <TooltipProvider>
