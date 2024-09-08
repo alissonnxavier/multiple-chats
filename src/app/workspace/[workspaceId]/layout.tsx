@@ -4,7 +4,7 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import Sidebar from "./sidebar";
 import Toolbar from "./toobar";
-import WorkspaceSidebar from "./workspace-sedebar";
+import WorkspaceSidebar from "./workspace-sidebar";
 
 interface WorkspaceIdLayoutProps {
     children: React.ReactNode;
