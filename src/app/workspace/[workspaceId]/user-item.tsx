@@ -46,22 +46,15 @@ export const UserItem = ({
             size='sm'
             asChild
         >
-            <Link href={`/workspace/${workspaceId}/member/${id}`}>
-                <Avatar className="size-5 rounded-md mr-1">
-                    <Image
-                        src={image ? image : "/men.svg"}
-                        alt="Profile photo"
-                        width={20}
-                        height={20}
-                    />
-                    <AvatarImage className="rounded-md" alt="photo" asChild>
-                        <AvatarFallback className="bg-sky-500 text-white" asChild>
-                            {avatarFallBack}
-                        </AvatarFallback>
-                    </AvatarImage>
-                </Avatar>
-                <span className="text-sm truncate">{label}</span>
-            </Link>
-        </Button>
+            <Link href={`/workspace/${workspaceId}/member/${id}`} >
+                <Avatar className="size-5 rounded-md mr-1" >
+                    <AvatarImage src={image} alt={label} />
+                    <AvatarFallback className="bg-sky-500 text-white" >
+                        {avatarFallBack}
+                    </AvatarFallback>
+            </Avatar>
+            <span className="text-sm truncate">{label}</span>
+        </Link>
+        </Button >
     )
 }

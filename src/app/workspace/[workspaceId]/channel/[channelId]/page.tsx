@@ -3,7 +3,7 @@ import React from 'react'
 const ChannelIdPage = () => {
     return (
         <div>
-           Page
+           Page channel
         </div>
     )
 }
