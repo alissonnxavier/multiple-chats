@@ -63,8 +63,10 @@ export const getById = query({
             .unique();
 
         if (!member) {
-            return channel;
-        }
+            return null;
+        };
+
+        return channel;
     }
 })
 
