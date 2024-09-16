@@ -19,6 +19,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         transparent: "bg-transparent hover:bg-accent/10 text-accent",
+        sendButton: "hover:bg-green-500 hover:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",
