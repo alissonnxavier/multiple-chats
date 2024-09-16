@@ -35,6 +35,7 @@ const Editor = ({
 }: EditorProps) => {
 
     const [text, setText] = useState("");
+    const [isToolbarVisible, setIsToolbarVisible] = useState(true);
 
     const submitRef = useRef(onSubmit);
     const placeholderRef = useRef(placeholder);
@@ -61,6 +62,31 @@ const Editor = ({
         const options: QuillOptions = {
             theme: "snow",
             placeholder: placeholderRef.current,
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'strike'],
+                    ['link'],
+                    [{ list: 'ordered' }, { list: 'bullet' }]
+                ],
+                keyboard: {
+                    bindings: {
+                        enter: {
+                            key: "Enter",
+                            handler: () => {
+                                //TDOD: Submit form
+                                return;
+                            }
+                        },
+                        shift_enter: {
+                            key: "Enter",
+                            shiftKey: true,
+                            handler: () => {
+                                quill.insertText(quill.getSelection()?.index || 0, "\n");
+                            }
+                        }
+                    }
+                }
+            }
         };
 
         const quill = new Quill(editorContainer, options);
@@ -92,9 +118,18 @@ const Editor = ({
         }
     }, [innerRef]);
 
+    const toggleTollbar = () => {
+        setIsToolbarVisible((current) => !current);
+        const toolbarElement = containerRef.current?.querySelector(".ql-toolbar");
+
+        if (toolbarElement) {
+            toolbarElement.classList.toggle("hidden");
+        }
+    }
+
     const isEmpety = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
-    console.log({isEmpety, text})
+    console.log({ isEmpety, text })
 
     return (
         <div className="flex flex-col">
@@ -102,13 +137,13 @@ const Editor = ({
                 <div ref={containerRef} className="h-full ql-editor" />
                 <div className='flex px-2 pb-2 z-[5]'>
                     <Hint
-                        label='Hide formating'
+                        label={isToolbarVisible ? "Hide formatting" : "Show formatting"}
                     >
                         <Button
-                            disabled={false}
+                            disabled={disabled}
                             size='iconSm'
                             variant='ghost'
-                            onClick={() => { }}
+                            onClick={toggleTollbar}
                         >
                             <PiTextAa className='size-4' />
                         </Button>
@@ -117,7 +152,7 @@ const Editor = ({
                         label='Emoji'
                     >
                         <Button
-                            disabled={false}
+                            disabled={disabled}
                             size='iconSm'
                             variant='ghost'
                             onClick={() => { }}
@@ -130,7 +165,7 @@ const Editor = ({
                             label='Image'
                         >
                             <Button
-                                disabled={false}
+                                disabled={disabled}
                                 size='iconSm'
                                 variant='ghost'
                                 onClick={() => { }}
@@ -142,7 +177,7 @@ const Editor = ({
                     {variant === "update" && (
                         <div className='ml-auto flex items-center gap-x-2'>
                             <Button
-                                disabled={false}
+                                disabled={disabled}
                                 size='sm'
                                 variant='outline'
                                 onClick={() => { }}
@@ -150,7 +185,7 @@ const Editor = ({
                                 Cancel
                             </Button>
                             <Button
-                                disabled={false}
+                                disabled={disabled || isEmpety}
                                 size='sm'
                                 className=' bg-[#007a5a] hover:gb-[#007a5a]/80 text-white'
 
@@ -168,9 +203,9 @@ const Editor = ({
                             variant='sendButton'
                             className={cn(
                                 'ml-auto',
-                                isEmpety 
-                                ? 'bg-white hover:bg-white text-muted-foreground'
-                                : 'bg-[#007a5a] hover:gb-[#007a5a]/80 text-white'
+                                isEmpety
+                                    ? 'bg-white hover:bg-white text-muted-foreground'
+                                    : 'bg-[#007a5a] hover:gb-[#007a5a]/80 text-white'
                             )}
                         >
                             <SendHorizonal className='size-4' />
