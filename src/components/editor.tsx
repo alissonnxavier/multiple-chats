@@ -9,6 +9,7 @@ import { Delta, Op } from 'quill/core';
 import { cn } from '@/lib/utils';
 import { EmojiPopover } from './emoji.popover';
 import Image from 'next/image';
+import { json } from 'stream/consumers';
 
 type EditorValue = {
     image: File | null;
@@ -77,8 +78,15 @@ const Editor = ({
                         enter: {
                             key: "Enter",
                             handler: () => {
-                                //TDOD: Submit form
-                                return;
+                                const text = quill.getText();
+                                const addedImage = imageElementRef.current?.files?.[0] || null;
+
+                                const isEmpety = !addedImage && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+
+                                if (isEmpety) return;
+
+                                const body = JSON.stringify(quill.getContents());
+                                submitRef.current?.({ body, image: addedImage });
                             }
                         },
                         shift_enter: {
@@ -137,7 +145,7 @@ const Editor = ({
         quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
     };
 
-    const isEmpety = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+    const isEmpety = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
     return (
         <div className="flex flex-col">
@@ -160,7 +168,9 @@ const Editor = ({
                                 }}
                                 className='hidden group-hover/image:flex rounded-full bg-black hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center'
                             >
-                                <XIcon className='size-3.5' />
+                                <Hint label='Remove image'>
+                                    <XIcon className='size-3.5' />
+                                </Hint>
                             </button>
                             <Image
                                 src={URL.createObjectURL(image)}
@@ -215,7 +225,7 @@ const Editor = ({
                                 disabled={disabled}
                                 size='sm'
                                 variant='outline'
-                                onClick={() => { }}
+                                onClick={onCancel}
                             >
                                 Cancel
                             </Button>
@@ -223,8 +233,12 @@ const Editor = ({
                                 disabled={disabled || isEmpety}
                                 size='sm'
                                 className=' bg-[#007a5a] hover:gb-[#007a5a]/80 text-white'
-
-                                onClick={() => { }}
+                                onClick={() => {
+                                    onSubmit({
+                                        body: JSON.stringify(quillRef.current?.getContents()),
+                                        image,
+                                    })
+                                }}
                             >
                                 Save
                             </Button>
@@ -233,7 +247,12 @@ const Editor = ({
                     {variant === "create" && (
                         <Button
                             disabled={disabled || isEmpety}
-                            onClick={() => { }}
+                            onClick={() => {
+                                onSubmit({
+                                    body: JSON.stringify(quillRef.current?.getContents()),
+                                    image,
+                                })
+                            }}
                             size='iconSm'
                             variant='sendButton'
                             className={cn(
@@ -248,17 +267,19 @@ const Editor = ({
                     )}
                 </div>
             </div>
-            {variant === "create" && (
-                <div className={cn(
-                    "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
-                    !isEmpety && "opacity-100"
-                )}>
-                    <p>
-                        <strong>Shift + Return</strong> to add a new line
-                    </p>
-                </div>
-            )}
-        </div>
+            {
+                variant === "create" && (
+                    <div className={cn(
+                        "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
+                        !isEmpety && "opacity-100"
+                    )}>
+                        <p>
+                            <strong>Shift + Return</strong> to add a new line
+                        </p>
+                    </div>
+                )
+            }
+        </div >
     );
 };
 
