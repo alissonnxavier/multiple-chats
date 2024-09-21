@@ -1,5 +1,5 @@
 import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
-import { format, isToday, isTomorrow, isYesterday } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import { Message } from "./message";
 
 interface MessageListProps {
@@ -16,8 +16,8 @@ interface MessageListProps {
 
 const formatedDateLaber = (dateStr: string) => {
     const date = new Date(dateStr);
-    if (isToday(date)) return "Today";
     if (isYesterday(date)) return "Yesterday";
+    if (isToday(date)) return "Today";
     return format(date, "EEEE, MMMM d");
 };
 
