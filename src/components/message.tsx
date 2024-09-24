@@ -5,6 +5,7 @@ import { Hint } from "./hint";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
 import Thumbnail from "./thumbnail";
+import Toolbar from "./toolbar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false })
 
@@ -67,7 +68,7 @@ export const Message = ({
                     </Hint>
                     <div className="flex flex-col w-full">
                         <Renderer value={body} />
-                        <Thumbnail url={image}/>
+                        <Thumbnail url={image} />
                         {updatedAt ? (
                             <span className="text-xs text-muted-foreground">
                                 (edited)
@@ -115,18 +116,27 @@ export const Message = ({
                             </button>
                         </Hint>
                     </div>
+                    <div className="ml-12">
+                        <Renderer value={body} />
+                        <Thumbnail url={image} />
+                    </div>
+                    {updatedAt ? (
+                        <span className="text-xs text-muted-foreground">(edited)</span>
+                    ) : null}
                 </div>
             </div>
-            <div className="ml-12">
-                <Renderer value={body} />
-                <Thumbnail url={image} />
-            </div>
-            {updatedAt ? (
-                <span className="text-xs text-muted-foreground">(edited)</span>
-            ) : null
-            }
+            {!isEditing &&(
+                <Toolbar
+                    isAuthor={isAuthor}
+                    isPending={false}
+                    handleEdit={()=>setEditingId(id)}
+                    handleThread={()=>{}}
+                    handleDelete={()=>{}}
+                    handleReaction={()=>{}}
+                    hideTheadButton={hideThreadButton}
+                />
+            )}
         </div>
-
     )
 
 }
