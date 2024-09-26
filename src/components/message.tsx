@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useRemoveMessage } from "@/features/messages/api/use-remove-messages";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useToggleReactions } from "@/features/reactions/api/use-toggle-reactions";
+import Reactions from "./reactions";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false })
@@ -71,9 +73,17 @@ export const Message = ({
 
     const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
     const { mutate: removeMessage, isPending: isRemovingMessage } = useRemoveMessage();
-
+    const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReactions();
 
     const isPending = isUpdatingMessage;
+
+    const handleReaction = (value: string) => {
+        toggleReaction({ messageId: id, value }, {
+            onError: () => {
+                toast.error("Failed to toggle reaction");
+            },
+        });
+    };
 
     const handleRemove = async () => {
         const ok = await confirm();
@@ -141,6 +151,7 @@ export const Message = ({
                                         (edited)
                                     </span>
                                 ) : null}
+                                <Reactions data={reactions} onChange={handleReaction} />
                             </div>
                         )}
                     </div>
@@ -151,7 +162,7 @@ export const Message = ({
                             handleEdit={() => setEditingId(id)}
                             handleThread={() => { }}
                             handleDelete={handleRemove}
-                            handleReaction={() => { }}
+                            handleReaction={handleReaction}
                             hideTheadButton={hideThreadButton}
                         />
                     )}
@@ -202,7 +213,8 @@ export const Message = ({
                     ) : (
                         <div className="flex flex-col w-full overflow-hidden">
                             <div className="text-sm">
-                                <button onClick={() => { }} className="font-bold text-primary hover:underline">
+                                <button onClick={() => { }}
+                                    className="font-bold text-primary hover:underline">
                                     {authorName}
                                 </button>
                                 <span>&nbsp;&nbsp;</span>
@@ -212,13 +224,14 @@ export const Message = ({
                                     </button>
                                 </Hint>
                             </div>
-                            <div className="ml-12">
+                            <div className="">
                                 <Renderer value={body} />
                                 <Thumbnail url={image} />
                             </div>
                             {updatedAt ? (
                                 <span className="text-xs text-muted-foreground">(edited)</span>
                             ) : null}
+                            <Reactions data={reactions} onChange={handleReaction} />
                         </div>
                     )}
                 </div>
@@ -229,7 +242,7 @@ export const Message = ({
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => { }}
                         handleDelete={handleRemove}
-                        handleReaction={() => { }}
+                        handleReaction={handleReaction}
                         hideTheadButton={hideThreadButton}
                     />
                 )}

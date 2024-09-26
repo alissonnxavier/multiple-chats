@@ -5,12 +5,18 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import Sidebar from "./sidebar";
 import Toolbar from "./toobar";
 import WorkspaceSidebar from "./workspace-sidebar";
+import { usePanel } from "@/hooks/use-panel";
 
 interface WorkspaceIdLayoutProps {
     children: React.ReactNode;
 };
 
 const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
+
+    const { parentMessageId, onClose } = usePanel();
+
+    const showPanel = !!parentMessageId;
+
     return (
         <div className="h-full">
             <Toolbar />
@@ -19,14 +25,14 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
                 <ResizablePanelGroup
                     direction="horizontal"
                     autoSaveId="ca-workspace-layout"
-                    
+
                 >
                     <ResizablePanel
                         defaultSize={20}
                         minSize={11}
                         className="bg-[#5E2C5F]"
                     >
-                        <WorkspaceSidebar/>
+                        <WorkspaceSidebar />
                     </ResizablePanel>
                     <ResizableHandle withHandle />
                     <ResizablePanel minSize={20} defaultSize={30}>
