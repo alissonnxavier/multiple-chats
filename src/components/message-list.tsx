@@ -22,7 +22,7 @@ interface MessageListProps {
     canLoadMore: boolean;
 };
 
-const formatedDateLaber = (dateStr: string) => {
+const formatedDateLabel = (dateStr: string) => {
     const date = new Date(dateStr);
     if (isYesterday(date)) return "Yesterday";
     if (isToday(date)) return "Today";
@@ -57,7 +57,7 @@ const MessageList = ({
             return groups;
         },
         {} as Record<string, typeof data>
-    )
+    );
 
     return (
         <div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
@@ -66,7 +66,7 @@ const MessageList = ({
                     <div className="text-center my-2 relative">
                         <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
                         <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
-                            {formatedDateLaber(dateKey)}
+                            {formatedDateLabel(dateKey)}
                         </span>
                     </div>
                     {messages.map((message, index) => {
