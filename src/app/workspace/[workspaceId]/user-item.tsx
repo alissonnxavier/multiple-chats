@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
+
 
 const UserItemVariants = cva(
     "flex items-center gap-1.5 justify-start font-normal h-7 px-4 text-sm overflow-hidden",
@@ -47,14 +47,14 @@ export const UserItem = ({
             asChild
         >
             <Link href={`/workspace/${workspaceId}/member/${id}`} >
-                <Avatar className="size-5 rounded-md mr-1" >
-                    <AvatarImage src={image} alt={label} />
-                    <AvatarFallback className="bg-sky-500 text-white" >
+                <Avatar className="size-6 mr-2 rounded-sm">
+                    <AvatarImage src={image} />
+                    <AvatarFallback className="rounded-sm">
                         {avatarFallBack}
                     </AvatarFallback>
-            </Avatar>
-            <span className="text-sm truncate">{label}</span>
-        </Link>
+                </Avatar>
+                <span className="text-sm truncate">{label}</span>
+            </Link>
         </Button >
     )
 }

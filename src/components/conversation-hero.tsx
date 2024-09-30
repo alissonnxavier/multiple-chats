@@ -13,7 +13,7 @@ export const ConversationHero = ({ name = "Member", image }: ConversationHeroPro
     return (
         <div className="mt-[88px] mx-5 mb-4">
             <div className="flex items-center gap-x-1 mb-2">
-                <Avatar>
+                <Avatar className="rounded-sm">
                     <AvatarImage src={image} />
                     <AvatarFallback>{avatarFallback}</AvatarFallback>
                 </Avatar>

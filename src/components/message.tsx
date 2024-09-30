@@ -41,6 +41,7 @@ interface MessageProps {
     hideThreadButton?: boolean;
     threadCount?: number;
     threadImage?: string;
+    threadName?: string;
     threadTimestamp?: number;
 };
 
@@ -65,6 +66,7 @@ export const Message = ({
     hideThreadButton,
     threadCount,
     threadImage,
+    threadName,
     threadTimestamp,
 }: MessageProps) => {
 
@@ -161,7 +163,9 @@ export const Message = ({
                                 <ThreadBar
                                     count={threadCount}
                                     image={threadImage}
+                                    name={threadName}
                                     timeStamp={threadTimestamp}
+                                    onClick={() => onOpenMessage(id)}
                                 />
                             </div>
                         )}
@@ -193,21 +197,13 @@ export const Message = ({
                 isRemovingMessage && "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
             )} >
                 <div className="flex items-start gap-2">
-                    <button>
-                        <Avatar className="rounded-md" >
-                            <Image
-                                className=""
+                    <button >
+                        <Avatar className="rounded-md">
+                            <AvatarImage src={authorImage} alt={authorName} />
+                            <AvatarFallback className="rounded-md bg-sky-500 text-white text-xs">
+                                {avatarFallback}
+                            </AvatarFallback>
 
-                                src={authorImage ? authorImage : "/penguin.svg"}
-                                width={50}
-                                height={50}
-                                alt="profile image"
-                            />
-                            <AvatarImage src={authorImage} alt='profile' asChild >
-                                <AvatarFallback className="rounded-md bg-sky-500 text-white text-xs">
-                                    {avatarFallback}
-                                </AvatarFallback>
-                            </AvatarImage>
                         </Avatar>
                     </button>
                     {isEditing ? (
@@ -244,10 +240,12 @@ export const Message = ({
                             ) : null}
                             <Reactions data={reactions} onChange={handleReaction} />
                             <ThreadBar
-                                    count={threadCount}
-                                    image={threadImage}
-                                    timeStamp={threadTimestamp}
-                                />
+                                count={threadCount}
+                                image={threadImage}
+                                name={threadName}
+                                timeStamp={threadTimestamp}
+                                onClick={() => onOpenMessage(id)}
+                            />
                         </div>
                     )}
                 </div>
