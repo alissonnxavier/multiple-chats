@@ -6,7 +6,7 @@ interface ConversationHeroProps {
     image?: string;
 };
 
-export const ConversationHero = ({ name, image }: ConversationHeroProps) => {
+export const ConversationHero = ({ name = "Member", image }: ConversationHeroProps) => {
 
     const avatarFallback = name?.charAt(0).toUpperCase();
 
