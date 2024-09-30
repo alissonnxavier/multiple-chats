@@ -138,7 +138,7 @@ const MessageList = ({
                     creationTime={channelCreationTime}
                 />
             )}
-              {variant === "conversation" && memberName && memberImage && (
+            {variant === "conversation" && (
                 <ConversationHero
                     name={memberName}
                     image={memberImage}
