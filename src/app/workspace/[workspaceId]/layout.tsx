@@ -3,7 +3,7 @@
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import Sidebar from "./sidebar";
-import Toolbar from "./toobar";
+import Toolbar from "./toolbar";
 import WorkspaceSidebar from "./workspace-sidebar";
 import { usePanel } from "@/hooks/use-panel";
 import { LoaderIcon } from "lucide-react";
