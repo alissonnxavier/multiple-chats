@@ -26,6 +26,7 @@
     "cmdk": "1.0.0",
     "convex": "^1.15.0",
     "date-fns": "^4.1.0",
+    "emoji-picker-react": "^4.12.0",
     "jotai": "^2.9.3",
     "lucide-react": "^0.436.0",
     "next": "14.2.6",
@@ -46,6 +47,7 @@
     "unzip": "^0.1.11"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -53,8 +55,7 @@
     "eslint-config-next": "14.2.6",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "@types/bun": "latest"
+    "typescript": "^5"
   },
   "module": "index.ts",
   "type": "module"
